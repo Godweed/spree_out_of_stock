@@ -4,7 +4,24 @@
 <% end %>
 
 <div class="well">
-  <%= render partial: 'spree/admin/shared/report_order_criteria' %>
+  <%= search_form_for @search, url: spree.out_of_stock_admin_reports_path  do |s| %>
+    <div class="form-group date-range-filter">
+      <%= label_tag nil, Spree.t(:date_range) %>
+      <div class="date-range-filter row">
+        <div class="col-md-6">
+          <%= s.text_field :created_at_gt, class: 'datepicker datepicker-from form-control', value: datepicker_field_value(params[:q][:created_at_gt]) %>
+        </div>
+        <div class="col-md-6">
+          <%= s.text_field :created_at_lt, class: 'datepicker datepicker-to form-control', value: datepicker_field_value(params[:q][:created_at_lt]) %>
+      </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= button Spree.t(:search), 'search' %>
+    </div>
+  <% end %>
+
 </div>
 
 <table class="table table-bordered admin-report" data-hook="sales_total">
@@ -16,11 +33,11 @@
     </tr>
   </thead>
   <tbody>
-    <% @variants.each do |variant| %>
+    <% @out_of_stocks.each do |oos| %>
       <tr>
-        <td><%= variant.sku %></td>
-        <td><%= variant.name %></td>
-        <td><%= variant.stock_items.count %></td>
+        <td><%= oos.stock_item.variant.sku %></td>
+        <td><%= oos.stock_item.variant.name %></td>
+        <td><%= oos.created_at %></td>
       </tr>
     <% end %>
   </tbody>
