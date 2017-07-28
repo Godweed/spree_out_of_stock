@@ -1,0 +1,28 @@
+<% content_for :page_title do %>
+  <%= link_to Spree.t(:reports), spree.admin_reports_url %> /
+  <%= Spree.t(:sales_totals) %>
+<% end %>
+
+<div class="well">
+  <%= render partial: 'spree/admin/shared/report_order_criteria' %>
+</div>
+
+<table class="table table-bordered admin-report" data-hook="sales_total">
+  <thead>
+    <tr>
+      <th><%= Spree.t(:sku) %></th>
+      <th><%= Spree.t(:product) %></th>
+      <th><%= Spree.t(:date) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @variants.each do |variant| %>
+      <tr>
+        <td><%= variant.sku %></td>
+        <td><%= variant.name %></td>
+        <td><%= variant.stock_items.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
